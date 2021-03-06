@@ -1,26 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <header>Push Notification</header>
+  <div class="app">
+    <div class="categories">
+      <category-item
+        :category="category"
+        v-for="category in categoryList"
+        :key="category.id"
+      />
+    </div>
+  </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import axios from "axios";
+import CategoryItem from './components/CategoryItem.vue';
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  components: { CategoryItem },
+  data() {
+    return {
+      categoryList: []
+    }
+  },
+  created() {
+    axios.get('http://localhost:3000').then(res => {
+      this.categoryList = res.data.categoryList;
+    })
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
